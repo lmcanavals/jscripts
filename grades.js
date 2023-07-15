@@ -1,4 +1,4 @@
-// we need to get the codes for this students
+// we need to get these students' codes
 // This first!
 const table = document.querySelectorAll("span table")[12];
 const trs = table.querySelectorAll("tr");
