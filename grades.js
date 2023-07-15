@@ -31,7 +31,7 @@ for (const row of rows) {
     const name = row.querySelector("bdi").innerText.toLowerCase();
     const grade = row.querySelectorAll("input")[1].value;
     if (!(name in name2code)) {
-      console.log("ERROR ERRRO, name is written different");
+      console.log("ERROR ERROR, name is written different");
       continue;
     }
     mux[name2code[name]] = parseFloat(grade);
@@ -58,7 +58,7 @@ for (let i = 1; i < groupdivs.length; ++i) {
     const name = row.querySelector("bdi").innerText.toLowerCase();
     const grade = row.querySelector("input").value;
     if (!(name in name2code)) {
-      console.log("ERROR ERRRO, name is written different");
+      console.log("ERROR ERROR, name is written different");
       continue;
     }
     mex[name2code[name]] = parseFloat(grade);
