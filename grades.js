@@ -109,3 +109,15 @@ for (const inp of inputs) {
     console.log(`ERROR ERROR ${code}`);
   }
 }
+
+// for midterms and finals
+
+let x = document.querySelector("#tb_notas");
+let y = x.querySelectorAll("tr");
+for (let i = 1; i < y.length - 1; ++i) {
+    let z = y[i].querySelectorAll("td");
+    const code = z[1].innerText.toLowerCase();
+    if (code in mix) {
+        z[3].firstChild.value = mix[code];
+    }
+}
