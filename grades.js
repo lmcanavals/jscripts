@@ -1,5 +1,6 @@
 // we need to get these students' codes
-// This first!
+// This first! on list of enrolled students
+// TODO: move to preregister of grades
 const table = document.querySelectorAll("span table")[12];
 const trs = table.querySelectorAll("tr");
 
@@ -12,7 +13,9 @@ for (let i = 3; i < trs.length - 1; ++i) {
     .toLowerCase()
     .split(", ")
     .reverse()
-    .join(" ");
+    .join(" ")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f\u007e]/g, "");
   const code = trs[i]
     .querySelector("td:nth-child(1)")
     .innerText
@@ -23,15 +26,19 @@ for (let i = 3; i < trs.length - 1; ++i) {
 console.log(name2code);
 
 // run on new blackboard individual evaluation
-
 const rows = document.querySelectorAll(".individual-submission-row");
 const mux = {};
 for (const row of rows) {
   if (row.querySelector(".status-nothing-to-grade") === null) {
-    const name = row.querySelector("bdi").innerText.toLowerCase();
+    const name = row
+      .querySelector("bdi")
+      .innerText
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f\u007e]/g, "");
     const grade = row.querySelectorAll("input")[1].value;
     if (!(name in name2code)) {
-      console.log("ERROR ERROR, name is written different");
+      console.log(`ERROR ERROR, ${name} is written different`);
       continue;
     }
     mux[name2code[name]] = parseFloat(grade);
@@ -55,7 +62,12 @@ const mex = {};
 for (let i = 1; i < groupdivs.length; ++i) {
   const rows = groupdivs[i].querySelectorAll(".member-row");
   for (const row of rows) {
-    const name = row.querySelector("bdi").innerText.toLowerCase();
+    const name = row
+      .querySelector("bdi")
+      .innerText
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f\u007e]/g, "");
     const grade = row.querySelector("input").value;
     if (!(name in name2code)) {
       console.log("ERROR ERROR, name is written different");
@@ -99,7 +111,6 @@ console.log(mix);
 // copy mix object
 
 // run on socrates
-
 const inputs = document.querySelectorAll("input[id]");
 for (const inp of inputs) {
   const code = inp.id.substring(7, 16).toLowerCase();
@@ -111,7 +122,6 @@ for (const inp of inputs) {
 }
 
 // for midterms and finals
-
 const x = document.querySelector("#tb_notas");
 const y = x.querySelectorAll("tr");
 for (let i = 1; i < y.length - 1; ++i) {
