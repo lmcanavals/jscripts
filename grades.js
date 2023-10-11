@@ -1,6 +1,6 @@
 // we need to get these students' codes
 // This first! on list of enrolled students
-// TODO: move to preregister of grades
+// TODO: move to preregister grades
 const table = document.querySelectorAll("span table")[12];
 const trs = table.querySelectorAll("tr");
 
