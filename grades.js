@@ -1,11 +1,11 @@
 // we need to get these students' codes
 // This first! on list of enrolled students
 // TODO: move to preregister grades
-const table = document.querySelectorAll("span table")[12];
+const table = document.querySelectorAll("table")[8];
 const trs = table.querySelectorAll("tr");
 
 const name2code = {};
-for (let i = 3; i < trs.length - 1; ++i) {
+for (let i = 1; i < trs.length - 1; ++i) {
   const name = trs[i]
     .querySelector("td:nth-child(2)")
     .innerText
