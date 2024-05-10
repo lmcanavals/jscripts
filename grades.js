@@ -97,8 +97,7 @@ for (let i = 0; i < n; ++i) {
   grades.push(parseFloat(
     document
       .querySelector(`#cell_${i}_${gradecolumn} .titleAnchor`)
-      .firstChild
-      .textContent,
+      .title,
   ));
 }
 
