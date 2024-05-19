@@ -41,7 +41,11 @@ for (const row of rows) {
       console.log(`ERROR ERROR, ${name} is written different`);
       continue;
     }
-    mux[name2code[name]] = parseFloat(grade);
+    const fgrade = parseFloat(grade);
+    mux[name2code[name]] = fgrade;
+    if (fgrade < 0 || fgrade > 20) {
+      conosole.log(`ERROR! ${name} grade out of range ${fgrade}`);
+    }
   }
 }
 console.log(mux);
@@ -73,7 +77,11 @@ for (let i = 1; i < groupdivs.length; ++i) {
       console.log("ERROR ERROR, name is written different");
       continue;
     }
-    mex[name2code[name]] = parseFloat(grade);
+    const fgrade = parseFloat(grade);
+    mex[name2code[name]] = fgrade;
+    if (fgrade < 0 || fgrade > 20) {
+      conosole.log(`ERROR! ${name} grade out of range ${fgrade}`);
+    }
   }
 }
 console.log(mex);
@@ -94,11 +102,18 @@ for (let i = 0; i < n; ++i) {
 }
 const grades = [];
 for (let i = 0; i < n; ++i) {
-  grades.push(parseFloat(
+  const code = document
+    .querySelector(`#cell_${i}_${codecolumn} .titleAnchor`)
+    .title;
+  const fgrade = parseFloat(
     document
       .querySelector(`#cell_${i}_${gradecolumn} .titleAnchor`)
       .title,
-  ));
+  );
+  if (fgrade < 0 || fgrade > 20) {
+    conosole.log(`ERROR! ${code} grade out of range ${fgrade}`);
+  }
+  grades.push(fgrade);
 }
 
 const mix = {};
