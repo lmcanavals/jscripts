@@ -14,7 +14,7 @@ const rgb2hex = (rgb) =>
   }`;
 for (let i = 0; i < 16; ++i) {
   const x = document.querySelector(`#${name}-player .fg-${i}`);
-  const rgb = window.getComputedStyle(x, null).getPropertyValue("color");
+  const rgb = globalThis.getComputedStyle(x, null).getPropertyValue("color");
   colors += rgb2hex(rgb) + "\n";
 }
 console.log(colors);
