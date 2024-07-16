@@ -1,12 +1,30 @@
 // we need to get these students' codes
 // This first! on list of enrolled students
 // TODO: move to preregister grades
-const table = document.querySelectorAll("table")[8];
-const trs = table.querySelectorAll("tr");
 
-const name2code = {};
+// variables to avoid the old thing
+let code = null,
+  fgrade = null,
+  grade = null,
+  groupdivs = null,
+  inputs = null,
+  mux = null,
+  n = null,
+  name = null,
+  name2code = null,
+  rows = null,
+  table = null,
+  trs = null,
+  x = null,
+  y = null,
+  z = null;
+
+table = document.querySelectorAll("table")[8];
+trs = table.querySelectorAll("tr");
+
+name2code = {};
 for (let i = 1; i < trs.length - 1; ++i) {
-  const name = trs[i]
+  name = trs[i]
     .querySelector("td:nth-child(2)")
     .innerText
     .trim()
@@ -16,7 +34,7 @@ for (let i = 1; i < trs.length - 1; ++i) {
     .join(" ")
     .normalize("NFD")
     .replace(/[\u0300-\u036f\u007e]/g, "");
-  const code = trs[i]
+  code = trs[i]
     .querySelector("td:nth-child(1)")
     .innerText
     .trim()
@@ -26,22 +44,22 @@ for (let i = 1; i < trs.length - 1; ++i) {
 console.log(name2code);
 
 // run on new blackboard individual evaluation
-const rows = document.querySelectorAll(".individual-submission-row");
-const mux = {};
+rows = document.querySelectorAll(".individual-submission-row");
+mux = {};
 for (const row of rows) {
   if (row.querySelector(".status-nothing-to-grade") === null) {
-    const name = row
+    name = row
       .querySelector("bdi")
       .innerText
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f\u007e]/g, "");
-    const grade = row.querySelectorAll("input")[1].value;
+    grade = row.querySelectorAll("input")[1].value;
     if (!(name in name2code)) {
       console.log(`ERROR ERROR, ${name} is written different`);
       continue;
     }
-    const fgrade = parseFloat(grade);
+    fgrade = parseFloat(grade);
     mux[name2code[name]] = fgrade;
     if (fgrade < 0 || fgrade > 20) {
       conosole.log(`ERROR! ${name} grade out of range ${fgrade}`);
@@ -51,9 +69,9 @@ for (const row of rows) {
 console.log(mux);
 
 // run on new blackboard group evaluation
-let groupdivs = document.querySelectorAll("form > div");
+groupdivs = document.querySelectorAll("form > div");
 for (let i = 1; i < groupdivs.length; ++i) {
-  const btn = groupdivs[i].querySelectorAll("button")[0];
+  btn = groupdivs[i].querySelectorAll("button")[0];
   if (btn !== undefined) {
     btn.click();
   } else {
@@ -62,36 +80,36 @@ for (let i = 1; i < groupdivs.length; ++i) {
 }
 await new Promise((r) => setTimeout(r, 2000));
 groupdivs = document.querySelectorAll("form > div");
-const mex = {};
+mux = {};
 for (let i = 1; i < groupdivs.length; ++i) {
-  const rows = groupdivs[i].querySelectorAll(".member-row");
-  for (const row of rows) {
-    const name = row
+  rows = groupdivs[i].querySelectorAll(".member-row");
+  for (row of rows) {
+    name = row``
       .querySelector("bdi")
       .innerText
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f\u007e]/g, "");
-    const grade = row.querySelector("input").value;
+    grade = row.querySelector("input").value;
     if (!(name in name2code)) {
-      console.log("ERROR ERROR, name is written different");
+      console.log("ERROR ERROR, name is written different", name);
       continue;
     }
-    const fgrade = parseFloat(grade);
-    mex[name2code[name]] = fgrade;
+    fgrade = parseFloat(grade);
+    mux[name2code[name]] = fgrade;
     if (fgrade < 0 || fgrade > 20) {
       conosole.log(`ERROR! ${name} grade out of range ${fgrade}`);
     }
   }
 }
-console.log(mex);
+console.log(mux);
 
 // run on classic blackboard
 
-const codecolumn = 3;
-const gradecolumn = 6;
-const n = document.querySelector("#table1").querySelectorAll("tr").length;
-const codes = [];
+codecolumn = 3;
+gradecolumn = 6;
+n = document.querySelector("#table1").querySelectorAll("tr").length;
+codes = [];
 for (let i = 0; i < n; ++i) {
   codes.push(
     document
@@ -100,12 +118,12 @@ for (let i = 0; i < n; ++i) {
       .textContent,
   );
 }
-const grades = [];
+grades = [];
 for (let i = 0; i < n; ++i) {
-  const code = document
+  code = document
     .querySelector(`#cell_${i}_${codecolumn} .titleAnchor`)
     .title;
-  const fgrade = parseFloat(
+  fgrade = parseFloat(
     document
       .querySelector(`#cell_${i}_${gradecolumn} .titleAnchor`)
       .title,
@@ -116,32 +134,32 @@ for (let i = 0; i < n; ++i) {
   grades.push(fgrade);
 }
 
-const mix = {};
+mux = {};
 for (let i = 0; i < n; ++i) {
-  mix[codes[i].slice(1).toLowerCase()] = grades[i];
+  mux[codes[i].slice(1).toLowerCase()] = grades[i];
 }
-console.log(mix);
+console.log(mux);
 
-// copy mix object
+// copy mux object
 
 // run on socrates
-const inputs = document.querySelectorAll("input[id]");
+inputs = document.querySelectorAll("input[id]");
 for (const inp of inputs) {
-  const code = inp.id.substring(7, 16).toLowerCase();
-  if (code in mix && mix[code] !== null) {
-    inp.value = mix[code];
+  code = inp.id.substring(7, 16).toLowerCase();
+  if (code in mux && mux[code] !== null) {
+    inp.value = mux[code];
   } else {
     console.log(`ERROR ERROR ${code}`);
   }
 }
 
 // for midterms and finals
-const x = document.querySelector("#tb_notas");
-const y = x.querySelectorAll("tr");
+x = document.querySelector("#tb_notas");
+y = x.querySelectorAll("tr");
 for (let i = 1; i < y.length - 1; ++i) {
-  const z = y[i].querySelectorAll("td");
-  const code = z[1].innerText.toLowerCase();
-  if (code in mix) {
-    z[3].firstChild.value = mix[code];
+  z = y[i].querySelectorAll("td");
+  code = z[1].innerText.toLowerCase();
+  if (code in mux) {
+    z[3].firstChild.value = mux[code];
   }
 }
