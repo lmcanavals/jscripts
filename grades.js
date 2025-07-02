@@ -17,7 +17,9 @@ let code = null,
   trs = null,
   x = null,
   y = null,
-  z = null;
+  z = null,
+  codes = null,
+  grades = null;
 
 table = document.querySelectorAll("table")[8];
 trs = table.querySelectorAll("tr");
@@ -53,7 +55,8 @@ for (const row of rows) {
       .innerText
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f\u007e]/g, "");
+      .replace(/[\u0300-\u036f\u007e]/g, "")
+      .replace(/&([a-z])((acute)|(tilde));/, "$1");
     grade = row.querySelectorAll("input")[1].value;
     if (!(name in name2code)) {
       console.log(`ERROR ERROR, ${name} is written different`);
@@ -83,13 +86,14 @@ groupdivs = document.querySelectorAll("form > div");
 mux = {};
 for (let i = 1; i < groupdivs.length; ++i) {
   rows = groupdivs[i].querySelectorAll(".member-row");
-  for (row of rows) {
-    name = row``
+  for (const row of rows) {
+    name = row
       .querySelector("bdi")
       .innerText
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f\u007e]/g, "");
+      .replace(/[\u0300-\u036f\u007e]/g, "")
+      .replace(/&([a-z])((acute)|(tilde));/, "$1");
     grade = row.querySelector("input").value;
     if (!(name in name2code)) {
       console.log("ERROR ERROR, name is written different", name);
@@ -145,7 +149,7 @@ console.log(mux);
 // run on socrates
 inputs = document.querySelectorAll("input[id]");
 for (const inp of inputs) {
-  code = inp.id.substring(7, 16).toLowerCase();
+  code = inp.id.substring(7, 16).toUpperCase();
   if (code in mux && mux[code] !== null) {
     inp.value = mux[code];
   } else {
